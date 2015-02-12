@@ -15,7 +15,7 @@ EDITOR_ROOT = "Editor/#{PACKAGE_NAME}"
 PLUGINS_ROOT = "Plugins/#{PACKAGE_NAME}"
 BRANCH_NAME = "renew-#{PACKAGE_NAME.downcase}"
 UNITYPACKAGE_PATH = "#{PACKAGE_NAME}_#{DateTime.now.strftime('%Y%m%d_%H%M')}.unitypackage"
-ADDITIONAL_EXPORT_PATH ||=
+ADDITIONAL_EXPORT_PATH ||= ''
 
 CLEAN.include(FileList['*.unitypackage'])
 
