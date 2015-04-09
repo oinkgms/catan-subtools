@@ -24,7 +24,8 @@ IMPORT_TMPDIR = '.import'
 IMPORT_PROJECTS = []
 if File.exist?(IMPORT_SETTING)
   File.open(IMPORT_SETTING, 'r').read.split(/\r?\n/).each do |l|
-    if l =~ /([^\/]+)\.git$/
+    l.strip!
+    if l !~ /^#/ and l =~ /([^\/]+)\.git$/
       IMPORT_PROJECTS << [l, "#{IMPORT_TMPDIR}/#{$1}", $1]
     end
   end
