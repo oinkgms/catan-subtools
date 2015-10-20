@@ -1,15 +1,25 @@
 require 'date'
 require 'rake/clean'
 
+def extract_version(projpath)
+  File.open("#{projpath}/ProjectSettings/ProjectVersion.txt", "r").readlines.each do |l|
+    if l =~ /\Am_EditorVersion:\s+(.+)\Z/
+      return $1
+    end
+  end
+  ''
+end
+
 RAKE = 'rake'
 GIT = 'git'
-UNITY_DIR ||= '/Applications/Unity'
+PROJECT_PATH = ENV['PROJECT_PATH'] || (File.expand_path(Dir.pwd) + "/unityproj")
+UNITY_VERSION = extract_version(PROJECT_PATH)
+UNITY_DIR ||= "/Applications/Unity#{UNITY_VERSION}"
 UNITY_APP = "#{UNITY_DIR}/Unity.app/Contents/MacOS/Unity"
 MDTOOL = "#{UNITY_DIR}/MonoDevelop.app/Contents/MacOS/mdtool"
 PAGER = 'less'
 UNITY_LOG = '~/Library/Logs/Unity/Editor.log'
 
-PROJECT_PATH = ENV['PROJECT_PATH'] || (File.expand_path(Dir.pwd) + "/unityproj")
 raise "must define PACKAGE_NAME" if not Object.const_defined?(:PACKAGE_NAME) or PACKAGE_NAME.nil? or PACKAGE_NAME.empty?
 EDITOR_ROOT = "Editor/#{PACKAGE_NAME}"
 PLUGINS_ROOT = "Plugins/#{PACKAGE_NAME}"
@@ -31,6 +41,10 @@ if File.exist?(IMPORT_SETTING)
   end
   #p IMPORT_PROJECTS
 end
+
+
+
+
 
 desc "export UnityPackage"
 task :export do
